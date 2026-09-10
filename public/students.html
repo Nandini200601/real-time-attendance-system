@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/style.css">
+<div class="header">
+
+<img src="logo.png" class="logo">
+
+<h1>MGIT COLLEGE</h1>
+
+<h3>
+Real-Time Attendance Tracking and Parent Notification System
+</h3>
+
+</div>
+
+<div class="navbar">
+
+<a href="dashboard.html">Dashboard</a>
+
+<a href="students.html">Students</a>
+
+<a href="attendance.html">Attendance</a>
+
+<a href="reports.html">Reports</a>
+<a href="percentage.html">Percentage</a>
+
+<a href="login.html" class="logout">Logout</a>
+
+</div>
+
+    <title>Students</title>
+
+</head>
+<body>
+
+
+<h2>Student Details</h2>
+
+<table border="1" id="studentTable">
+
+<tr>
+    <th>Student ID</th>
+    <th>Name</th>
+    <th>Parent Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Branch</th>
+    <th>Year</th>
+</tr>
+
+</table>
+
+<script>
+
+fetch('/allstudents')
+.then(res => res.json())
+.then(data => {
+
+    const table =
+    document.getElementById(
+    'studentTable'
+    );
+
+    data.forEach(student => {
+
+        const row =
+        table.insertRow();
+
+        row.innerHTML = `
+        <td>${student.student_id}</td>
+        <td>${student.student_name}</td>
+        <td>${student.parent_name}</td>
+        <td>${student.parent_email}</td>
+        <td>${student.parent_phone}</td>
+        <td>${student.branch}</td>
+        <td>${student.year}</td>
+        `;
+    });
+});
+
+</script>
+
+</body>
+</html>

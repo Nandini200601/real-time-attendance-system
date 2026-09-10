@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Reports</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="header">
+
+    <img src="logo.png" class="logo">
+
+    <h1>MGIT COLLEGE</h1>
+
+    <h3>
+        Real-Time Attendance Tracking and Parent Notification System
+    </h3>
+
+</div>
+
+<div class="navbar">
+
+    <a href="dashboard.html">Dashboard</a>
+
+    <a href="students.html">Students</a>
+
+    <a href="attendance.html">Attendance</a>
+
+    <a href="reports.html">Reports</a>
+
+    <a href="percentage.html">Percentage</a>
+
+    <a href="login.html" class="logout">Logout</a>
+
+</div>
+
+<div class="container">
+
+    <h2>Subject Wise Attendance Reports</h2>
+
+    <div id="subjectButtons"></div>
+
+    <br>
+
+    <h3 id="subjectTitle"></h3>
+
+    <table id="reportTable">
+
+        <thead>
+
+        <tr>
+    <th>Student ID</th>
+    <th>Student Name</th>
+    <th>Status</th>
+    <th>Date</th>
+    <th>Period No</th>
+       </tr>       
+ </thead>
+
+        <tbody id="reportBody">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="footer">
+
+    Developed By
+
+    <br><br>
+
+    B. Nandini |
+    S. Nithya |
+    T. Yasaswi |
+    T. Manvitha
+
+</div>
+
+<script>
+
+// Load Subject Buttons
+
+fetch('/subjects')
+.then(response => response.json())
+.then(subjects => {
+
+    const container =
+    document.getElementById(
+    'subjectButtons'
+    );
+
+    subjects.forEach(subject => {
+
+        const button =
+        document.createElement(
+        'button'
+        );
+
+        button.innerText =
+        subject.subject;
+
+        button.style.margin =
+        '10px';
+
+        button.onclick =
+        function(){
+
+            loadReport(
+            subject.subject
+            );
+
+        };
+
+        container.appendChild(
+        button
+        );
+
+    });
+
+});
+
+
+// Load Report
+
+function loadReport(subject){
+
+    document.getElementById(
+    'subjectTitle'
+    ).innerHTML =
+    'Subject : ' + subject;
+
+    fetch(
+    '/subjectReport/' + subject
+    )
+
+    .then(response =>
+    response.json()
+    )
+
+    .then(data => {
+
+        const tbody =
+        document.getElementById(
+        'reportBody'
+        );
+
+        tbody.innerHTML = '';
+
+        data.forEach(student => {
+
+            const row =
+            document.createElement(
+            'tr'
+            );
+
+            row.innerHTML = `
+                <td>${student.student_id}</td>
+                <td>${student.student_name}</td>
+                <td>${student.status}</td>
+                <td>${student.attendance_date}</td>
+                <td>${student.period_no}</td>
+                            `;
+
+            tbody.appendChild(
+            row
+            );
+
+        });
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
